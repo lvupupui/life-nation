@@ -1,0 +1,9 @@
+{
+  "name": "南山lily × 元五七｜人生小国家",
+  "short_name": "人生小国家",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fff8f1",
+  "theme_color": "#fff8f1",
+  "icons": []
+}

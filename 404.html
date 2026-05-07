@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#fff8f1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="人生小国家" />
+  <title>南山lily × 元五七｜人生小国家 正式版 V2</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">
+      <h1>南山lily × 元五七</h1>
+      <p>人生小国家 正式版 V2</p>
+    </div>
+    <button id="installBtn" class="ghost-btn" hidden>安装</button>
+  </header>
+
+  <main>
+    <section class="page active" id="page-kingdom">
+      <section class="hero hero-kingdom">
+        <div class="hero-copy">
+          <span class="hero-tag">我的人生小国家</span>
+          <h2>今天也要好好治理自己</h2>
+          <p id="eventSummary">今日国家事件：内政平稳，建议优先完成一条重要政令与一个基建任务。</p>
+        </div>
+        <img class="hero-character" src="./assets/characters/governor_office.png" alt="总督办公">
+        <div class="streak-pill"><b id="streakDays">0</b><span>连续治理天</span></div>
+      </section>
+
+      <section class="scene-card">
+        <div class="section-head">
+          <h3>国家总地图</h3>
+          <span>点击进入部门</span>
+        </div>
+        <div class="scene-wrap">
+          <img src="./assets/scenes/kingdom_map.png" class="main-scene" alt="国家总地图">
+        </div>
+        <div class="dept-grid">
+          <button class="dept-btn" data-page="order"><img src="./assets/ui/entry_order.png"><span>今日政令</span></button>
+          <button class="dept-btn" data-page="internal"><img src="./assets/ui/entry_internal.png"><span>内政大厅</span></button>
+          <button class="dept-btn" data-page="build"><img src="./assets/ui/entry_build.png"><span>基建工程部</span></button>
+          <button class="dept-btn" data-page="treasury"><img src="./assets/ui/entry_treasury.png"><span>国库管理局</span></button>
+          <button class="dept-btn" data-page="strategy"><img src="./assets/ui/entry_strategy.png"><span>国家战略部</span></button>
+          <button class="dept-btn" data-page="archive"><img src="./assets/ui/entry_archive.png"><span>国家档案</span></button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <h3>国家状态总览</h3>
+          <span>根据政令 / 内政 / 基建 / 国库 / 战略实时变化</span>
+        </div>
+        <div class="status-grid">
+          <article>
+            <img src="./assets/ui/status_internal.png" alt="">
+            <b>内政稳定</b>
+            <em id="statusInternal">78%</em>
+            <progress id="barInternal" value="78" max="100"></progress>
+          </article>
+          <article>
+            <img src="./assets/ui/status_time.png" alt="">
+            <b>调度秩序</b>
+            <em id="statusTime">65%</em>
+            <progress id="barTime" value="65" max="100"></progress>
+          </article>
+          <article>
+            <img src="./assets/ui/status_energy.png" alt="">
+            <b>国家能源</b>
+            <em id="statusEnergy">82%</em>
+            <progress id="barEnergy" value="82" max="100"></progress>
+          </article>
+          <article>
+            <img src="./assets/ui/status_safe.png" alt="">
+            <b>国库安全</b>
+            <em id="statusTreasury">70%</em>
+            <progress id="barTreasury" value="70" max="100"></progress>
+          </article>
+          <article>
+            <img src="./assets/ui/status_strategy.png" alt="">
+            <b>战略推进</b>
+            <em id="statusStrategy">60%</em>
+            <progress id="barStrategy" value="60" max="100"></progress>
+          </article>
+          <article>
+            <img src="./assets/ui/status_social.png" alt="">
+            <b>外交舒适</b>
+            <em id="statusSocial">75%</em>
+            <progress id="barSocial" value="75" max="100"></progress>
+          </article>
+        </div>
+      </section>
+
+      <section class="home-action-grid">
+        <button class="native-card event-native" data-page="internal">
+          <span class="card-kicker">今日国家事件</span>
+          <h3 id="homeEventTitle">国家运行平稳</h3>
+          <p id="homeEventDesc">请优先完成一条重要政令，并修复一个基建系统。</p>
+          <em>进入内政大厅 ›</em>
+        </button>
+        <button class="native-card order-native" data-page="order">
+          <span class="card-kicker">今日三条政令</span>
+          <h3 id="homeOrderTitle">0/3 已完成</h3>
+          <p>完成政令会提升调度秩序与战略推进。</p>
+          <em>查看全部政令 ›</em>
+        </button>
+        <button class="native-card report-native" data-page="archive" onclick="makeReport()">
+          <span class="card-kicker">国家报告</span>
+          <h3>查看今日治理报告</h3>
+          <p>系统会根据真实日期和今日行为生成报告。</p>
+          <em>进入国家档案 ›</em>
+        </button>
+      </section>
+    </section>
+
+    <section class="page" id="page-order">
+      <section class="titlebar">
+        <button class="back-btn" data-page="kingdom">‹</button>
+        <div><h2>今日政令</h2><p>今天不用改变人生，只需要让国家正常运转。</p></div>
+      </section>
+
+      <section class="panel page-hero">
+        <img class="side-illustration" src="./assets/characters/issue_order.png" alt="">
+        <div class="section-head"><h3>发布三条政令</h3><span id="orderCount">0/3 已完成</span></div>
+        <div class="task-list">
+          <label><input id="order1Done" type="checkbox"><input id="order1Text" value="完成一件最重要的事"><small>影响：调度秩序 +10 / 战略推进 +5</small></label>
+          <label><input id="order2Done" type="checkbox"><input id="order2Text" value="完成一个基建任务"><small>影响：国家能源 +12</small></label>
+          <label><input id="order3Done" type="checkbox"><input id="order3Text" value="记录一次内政状态"><small>影响：内政稳定 +8</small></label>
+        </div>
+        <button class="primary-btn" onclick="saveOrders()">保存今日政令</button>
+      </section>
+
+      <section class="panel note-panel">
+        <div class="section-head"><h3>政令说明</h3><span>治理提示</span></div>
+        <div class="bullet-list">
+          <p>① 同一天多次点击保存，不会重复增加连续治理天数。</p>
+          <p>② 完成政令会影响国家状态总览。</p>
+          <p>③ 今天完成所有政令，可解锁“优秀治理”勋章条件。</p>
+        </div>
+      </section>
+    </section>
+
+    <section class="page" id="page-internal">
+      <section class="titlebar">
+        <button class="back-btn" data-page="kingdom">‹</button>
+        <div><h2>内政大厅</h2><p>焦虑不是敌人，它只是提醒你国家内部需要被照顾。</p></div>
+      </section>
+      <section class="department-scene internal-scene">
+        <img src="./assets/scenes/hall_scene.png" alt="内政大厅">
+        <div>
+          <b>内政大厅</b>
+          <span>在这里照顾情绪，稳定国家内部秩序。</span>
+        </div>
+      </section>
+
+
+      <section class="panel">
+        <div class="section-head"><h3>当前内政状态</h3><span id="moodLabel">未选择</span></div>
+        <div class="mood-grid">
+          <button data-mood="开心" data-img="mood_happy"><img src="./assets/characters/mood_happy.png"><span>开心</span></button>
+          <button data-mood="平静" data-img="mood_calm"><img src="./assets/characters/mood_calm.png"><span>平静</span></button>
+          <button data-mood="焦虑" data-img="mood_anxious"><img src="./assets/characters/mood_anxious.png"><span>焦虑</span></button>
+          <button data-mood="疲惫" data-img="mood_tired"><img src="./assets/characters/mood_tired.png"><span>疲惫</span></button>
+        </div>
+      </section>
+
+      <section class="panel emotion-detail">
+        <img id="moodCharacter" src="./assets/characters/mood_calm.png" alt="">
+        <div class="detail-grow">
+          <div class="section-head"><h3>内政波动等级</h3><span id="moodPowerLabel">5</span></div>
+          <input class="range" type="range" min="1" max="10" value="5" id="moodPower" />
+          <textarea id="internalNote" placeholder="今天是什么事情影响了内政？"></textarea>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head"><h3>安抚政策</h3><span>选一个就好</span></div>
+        <div class="policy-grid">
+          <button>深呼吸 5 次</button>
+          <button>喝一杯水</button>
+          <button>暂停攻击自己</button>
+          <button>写两句日记</button>
+        </div>
+        <button class="primary-btn" onclick="saveInternal()">保存内政</button>
+      </section>
+    </section>
+
+    <section class="page" id="page-build">
+      <section class="titlebar">
+        <button class="back-btn" data-page="kingdom">‹</button>
+        <div><h2>基建工程部</h2><p>身体是国家的根基，基建稳，国家才有力气向前走。</p></div>
+      </section>
+      <section class="department-scene build-scene">
+        <img src="./assets/scenes/construction_scene.png" alt="基建工程区">
+        <div>
+          <b>基建工程区</b>
+          <span>睡眠、饮水、运动、饮食，都是国家基础建设。</span>
+        </div>
+      </section>
+
+
+      <section class="panel page-hero build-page">
+        <img class="side-illustration" src="./assets/characters/inspect_build.png" alt="">
+        <div class="section-head"><h3>今日基建状态</h3><span><b id="energyScore">82</b> 能源值</span></div>
+        <div class="build-grid">
+          <label><span>睡眠工程</span><input id="sleepValue" placeholder="7.5 小时"></label>
+          <label><span>饮水工程</span><input id="waterValue" placeholder="8 杯"></label>
+          <label><span>运动工程</span><input id="sportValue" placeholder="30 分钟"></label>
+          <label><span>补给工程</span><input id="foodValue" placeholder="均衡饮食"></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head"><h3>今日基建任务</h3><span id="buildCount">0/4 完成</span></div>
+        <div class="pill-checks">
+          <label><input id="buildSleep" type="checkbox">睡够 7 小时</label>
+          <label><input id="buildWater" type="checkbox">喝水 8 杯</label>
+          <label><input id="buildSport" type="checkbox">运动 30 分钟</label>
+          <label><input id="buildFood" type="checkbox">吃一顿稳定的饭</label>
+        </div>
+        <button class="primary-btn" onclick="saveBuild()">保存基建</button>
+      </section>
+    </section>
+
+    <section class="page" id="page-treasury">
+      <section class="titlebar">
+        <button class="back-btn" data-page="kingdom">‹</button>
+        <div><h2>国库管理局</h2><p>不是复杂记账，而是知道今天国库是稳定、紧张还是赤字。</p></div>
+      </section>
+      <section class="department-scene treasury-scene">
+        <img src="./assets/scenes/treasury_scene.png" alt="国库金库">
+        <div>
+          <b>国库金库</b>
+          <span>看见收入、支出与结余，国库才会有安全感。</span>
+        </div>
+      </section>
+
+
+      <section class="panel page-hero treasury-page">
+        <img class="side-illustration" src="./assets/characters/manage_treasury.png" alt="">
+        <div class="section-head"><h3>今日国库</h3><span id="treasuryMode">稳定</span></div>
+        <div class="treasury-total">
+          <strong>今日结余</strong>
+          <b>¥<span id="todayBalanceText">120</span></b>
+          <em id="treasuryHint">国库平稳，安全感良好</em>
+        </div>
+        <div class="money-form">
+          <label>收入<input id="incomeValue" type="number" value="200"></label>
+          <label>支出<input id="expenseValue" type="number" value="80"></label>
+          <label>储蓄<input id="savingValue" type="number" value="120" readonly></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head"><h3>财政提醒</h3><span>轻量模式</span></div>
+        <div class="bullet-list">
+          <p>基础补给：餐饮与生活必需，不必苛责自己。</p>
+          <p>物资采购：购物前想一想，这是需要，还是情绪消费？</p>
+          <p>科技投入：学习与成长型支出，是战略投资。</p>
+        </div>
+        <button class="primary-btn" onclick="saveTreasury()">保存国库</button>
+      </section>
+    </section>
+
+    <section class="page" id="page-strategy">
+      <section class="titlebar">
+        <button class="back-btn" data-page="kingdom">‹</button>
+        <div><h2>国家战略部</h2><p>不是列一堆目标，而是为自己插下能走到的旗子。</p></div>
+      </section>
+
+      <section class="panel page-hero">
+        <img class="banner-scene" src="./assets/scenes/strategy_scene.png" alt="">
+        <div class="section-head"><h3>战略山路</h3><span id="strategyStartText">从今天开始执行</span></div>
+        <div class="goal-list">
+          <label>
+            <span>30 天战略</span>
+            <input id="goal30" value="建立稳定作息">
+            <div class="strategy-meta"><em id="goal30Days">已执行 0/30 天</em><em id="goal30Percent">45%</em></div>
+            <input id="goal30Range" type="range" min="0" max="100" value="45">
+          </label>
+          <label>
+            <span>90 天战略</span>
+            <input id="goal90" value="坚持运动计划">
+            <div class="strategy-meta"><em id="goal90Days">已执行 0/90 天</em><em id="goal90Percent">35%</em></div>
+            <input id="goal90Range" type="range" min="0" max="100" value="35">
+          </label>
+          <label>
+            <span>1 年战略</span>
+            <input id="goalYear" value="存下一个应急金">
+            <div class="strategy-meta"><em id="goalYearDays">已执行 0/365 天</em><em id="goalYearPercent">25%</em></div>
+            <input id="goalYearRange" type="range" min="0" max="100" value="25">
+          </label>
+        </div>
+        <button class="primary-btn" onclick="saveStrategy()">保存战略</button>
+      </section>
+    </section>
+
+    <section class="page" id="page-archive">
+      <section class="titlebar">
+        <button class="back-btn" data-page="kingdom">‹</button>
+        <div><h2>国家档案</h2><p>记录你一路治理国家的痕迹。</p></div>
+      </section>
+      <section class="department-scene garden-scene">
+        <img src="./assets/scenes/garden_scene.png" alt="外交花园">
+        <div>
+          <b>外交花园</b>
+          <span>关系、边界与支持，也会影响国家舒适度。</span>
+        </div>
+      </section>
+
+
+      <section class="panel archive-top">
+        <img class="archive-avatar" src="./assets/characters/celebrate.png" alt="">
+        <div class="archive-info">
+          <h3>小国家总督</h3>
+          <p>称号：<span id="titleRank">新手总督</span></p>
+          <p>国家等级：Lv.<span id="levelNum">1</span></p>
+          <progress id="levelBar" value="25" max="100"></progress>
+        </div>
+      </section>
+
+      <section class="stat-strip">
+        <article><b id="archiveDays">0</b><span>连续治理</span></article>
+        <article><b id="archiveOrders">0</b><span>完成政令</span></article>
+        <article><b id="archiveBadges">0</b><span>获得勋章</span></article>
+      </section>
+
+      <section class="panel">
+        <div class="section-head"><h3>国家勋章</h3><span>点击查看条件</span></div>
+        <div class="badge-list" id="badgeList"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head"><h3>今日国家报告</h3><span>自动生成</span></div>
+        <div id="reportBox" class="report-box">报告会显示在这里。</div>
+      </section>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="active" data-page="kingdom">王国</button>
+    <button data-page="order">政令</button>
+    <button data-page="internal">内政</button>
+    <button data-page="build">基建</button>
+    <button data-page="treasury">国库</button>
+    <button data-page="strategy">战略</button>
+    <button data-page="archive">档案</button>
+  </nav>
+
+  <div class="toast" id="toast">已保存</div>
+</div>
+<script src="./script.js"></script>
+</body>
+</html>
